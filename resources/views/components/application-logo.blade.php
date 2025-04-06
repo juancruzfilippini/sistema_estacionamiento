@@ -1,0 +1,1 @@
+<img class="h-30 w-60" src="https://github.com/juancruzfilippini/logo-presupuestos/blob/main/markett_logo-removebg-preview.png?raw=true" {{ $attributes }} >
