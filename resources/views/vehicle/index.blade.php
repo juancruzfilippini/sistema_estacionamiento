@@ -14,7 +14,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                
+
                     @if (session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
@@ -110,7 +110,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.delete-form').forEach(form => {
-            form.addEventListener('submit', function (e) {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: '¿Eliminar vehículo?',
@@ -169,6 +169,22 @@
                     <input type="text" name="color" id="edit_color" class="w-full border rounded p-2">
                 </div>
             </div>
+            <div class="mb-4 flex justify-center">
+                <div class="w-full max-w-sm">
+                    <label for="edit_tariff" class="block text-sm font-medium text-center">Tarifa</label>
+                    <select id="edit_tariff" name="tariff_id" class="w-full border rounded p-2 text-center">
+                        <option value="">Seleccione una tarifa</option>
+                        @foreach ($tariffs as $tariff)
+                            <option value="{{ $tariff->id }}">{{ $tariff->description }} - ${{ $tariff->value }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+
+
+
             <div class="flex justify-end">
                 <button type="button" class="ml-2 p-2 text-gray-500 hover:underline close-modal">Cancelar</button>
                 <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
@@ -186,6 +202,20 @@
         const form = document.getElementById('editVehicleForm');
         const brandSelect = document.getElementById('edit_brand');
         const modelSelect = document.getElementById('edit_model');
+        const tariffSelect = document.getElementById('edit_tariff');
+
+        // Inicializar select2
+        if (typeof $().select2 === 'function') {
+            $('#edit_brand').select2({
+                width: '100%'
+            });
+            $('#edit_model').select2({
+                width: '100%'
+            });
+            $('#edit_tariff').select2({
+                width: '100%'
+            });
+        }
 
         document.querySelectorAll('.open-edit-modal').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -199,8 +229,14 @@
                         document.getElementById('vehicle_id').value = vehicleId;
                         document.getElementById('edit_patent').value = data.patent;
                         document.getElementById('edit_color').value = data.color;
-                        brandSelect.value = data.brand_id;
 
+                        // Marca
+                        $('#edit_brand').val(data.brand_id).trigger('change');
+
+                        // Tarifa
+                        $('#edit_tariff').val(data.tariff_id).trigger('change');
+
+                        // Cargar modelos según marca
                         fetch(`/sistema_estacionamiento/public/get-models/${data.brand_id}`)
                             .then(res => res.json())
                             .then(models => {
@@ -211,10 +247,11 @@
                                         'option');
                                     opt.value = model.id;
                                     opt.text = model.name;
-                                    if (model.id == data.model_id) opt
-                                        .selected = true;
                                     modelSelect.appendChild(opt);
                                 });
+
+                                // Seleccionar el modelo del vehículo
+                                $('#edit_model').val(data.model_id).trigger('change');
                             });
 
                         modal.classList.remove('hidden');
@@ -222,9 +259,9 @@
             });
         });
 
-        // Cargar modelos al cambiar la marca
-        brandSelect.addEventListener('change', () => {
-            const brandId = brandSelect.value;
+        // Al cambiar la marca, actualizar modelos
+        $('#edit_brand').on('change', function() {
+            const brandId = $(this).val();
             fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
                 .then(res => res.json())
                 .then(models => {
@@ -235,10 +272,11 @@
                         opt.text = model.name;
                         modelSelect.appendChild(opt);
                     });
+                    $('#edit_model').val('').trigger('change');
                 });
         });
 
-        // Cerrar el modal
+        // Cerrar modal
         document.querySelectorAll('.close-modal').forEach(el => {
             el.addEventListener('click', () => {
                 modal.classList.add('hidden');

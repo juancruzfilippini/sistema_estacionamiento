@@ -18,8 +18,8 @@ class UpdateVehicleStatus extends Command
         Log::info('🚗 Comando vehicles:update-status ejecutado a las ' . now());
 
         $currentMonth = now()->format('m-Y'); // Ejemplo: "03-2025"
-        //$today = now()->format('d');
-        $today = 1;
+        $today = now()->format('d');
+        //$today = 1;
 
         // 1️⃣ Día 1: Marcar como "pending" solo los que NO tienen pago registrado del mes actual
         if ($today == 1) {

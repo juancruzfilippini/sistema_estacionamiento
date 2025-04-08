@@ -4,6 +4,8 @@
             {{ __('Nuevo Cliente') }}
         </h2>
     </x-slot>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -61,7 +63,7 @@
                                         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                             <i class="fas fa-phone text-gray-400"></i>
                                         </span>
-                                        <input type="text" id="phone" name="phone" 
+                                        <input type="text" id="phone" name="phone"
                                             class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             value="{{ old('phone') }}">
                                     </div>
@@ -72,7 +74,7 @@
                                         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                             <i class="fas fa-envelope text-gray-400"></i>
                                         </span>
-                                        <input type="text" id="email" name="email" 
+                                        <input type="text" id="email" name="email"
                                             class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             value="{{ old('email') }}">
                                     </div>
@@ -84,7 +86,7 @@
                                         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                             <i class="fas fa-home text-gray-400"></i>
                                         </span>
-                                        <input type="text" id="address" name="address" 
+                                        <input type="text" id="address" name="address"
                                             class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             value="{{ old('address') }}">
                                     </div>
@@ -115,8 +117,7 @@
                             <div class="flex space-x-4">
                                 <div class="w-1/4 mt-1">
                                     <label for="brand" class="block text-sm font-medium text-gray-700">Marca</label>
-                                    <select id="brand_id" name="brand_id"
-                                        class="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-10">
+                                    <select id="brand_id" name="brand_id" class="select-field w-full">
                                         <option value=""></option>
                                         @foreach ($brands as $brand)
                                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -127,12 +128,11 @@
                                 <div class="w-1/4 mt-1">
                                     <label for="model"
                                         class="block text-sm font-medium text-gray-700">Modelo</label>
-                                    <select id="model_id" name="model_id"
-                                        class="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-10"
-                                        disabled>
+                                    <select id="model_id" name="model_id" class="select-field w-full">
                                         <option value=""></option>
                                     </select>
                                 </div>
+
                                 <div class="w-1/4">
                                     <label for="color"
                                         class="block text-sm font-medium text-gray-700">Color</label>
@@ -204,21 +204,24 @@
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <i class="fas fa-car-side text-gray-400"></i>
                                 </span>
-                                <select name="vehicle_id" id="vehicle_id"
-                                    class="pl-10 h-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <select name="vehicle_id" id="vehicle_id" class="vehicle-select w-full">
                                     <option value="">Seleccione un auto</option>
                                     @foreach ($vehicles as $vehicle)
                                         <option value="{{ $vehicle->id }}">
-                                            {{ $vehicle->brand }} - {{ $vehicle->model }} ({{ $vehicle->patent }})
+                                            {{ $vehicle->brand->name }} {{ $vehicle->model->name }}
+                                            ({{ $vehicle->patent }})
                                         </option>
                                     @endforeach
                                 </select>
+
+
                             </div>
                         </div>
 
 
                         <div class="flex justify-end">
-                            <button type="submit" class="btn bg-indigo-600 text-white px-4 py-2 rounded-md">
+                            <button type="submit"
+                                class="btn bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded-md">
                                 <i class="fa-solid fa-floppy-disk mr-2"></i> Registrar Cliente
                             </button>
                         </div>
@@ -229,29 +232,86 @@
         </div>
     </div>
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #d1d5db;
+            /* border-gray-300 */
+            border-radius: 0.375rem;
+            /* rounded-md */
+            height: 2.5rem;
+            /* h-10 */
+            padding: 0 0.75rem;
+            /* px-3 */
+            font-size: 0.875rem;
+            /* text-sm */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 2.5rem;
+            /* leading-10 */
+            color: #374151;
+            /* text-gray-700 */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 2.5rem;
+            top: 0;
+            right: 0;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #7096e9;
+            /* bg-indigo-600 */
+            color: white;
+        }
+
+        .select2-container--default .select2-results__option--selected {
+            background-color: #e0e7ff;
+            /* bg-indigo-100 */
+            color: #1e40af;
+            /* text-indigo-900 */
+        }
+
+        .select2-container .select2-dropdown {
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d1d5db;
+        }
+    </style>
+
     <script>
-        document.getElementById('brand_id').addEventListener('change', function() {
-            let brandId = this.value;
-            let modelSelect = document.getElementById('model_id');
-            modelSelect.innerHTML = '<option value=""></option>';
-            modelSelect.disabled = true;
+        $('#brand_id').on('change', function() {
+            const brandId = $(this).val();
+
+            // Limpia el select de modelos
+            $('#model_id').html('<option value=""></option>').prop('disabled', true);
 
             if (brandId) {
-                fetch(`{{ url('get-models') }}/${brandId}`)
-
+                fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
                     .then(response => response.json())
-                    .then(data => {
-                        data.forEach(model => {
-                            let option = document.createElement('option');
-                            option.value = model.id;
-                            option.textContent = model.name;
-                            modelSelect.appendChild(option);
-                        });
-                        modelSelect.disabled = false;
-                    })
-                    .catch(error => console.error('Error:', error));
+                    .then(models => {
+                        if (models.length > 0) {
+                            models.forEach(model => {
+                                $('#model_id').append(
+                                    `<option value="${model.id}">${model.name}</option>`);
+                            });
+
+                            // Reactiva el select y reinicializa Select2
+                            $('#model_id').prop('disabled', false).select2({
+                                placeholder: 'Seleccione un modelo',
+                                allowClear: true,
+                                width: '100%',
+                                language: {
+                                    noResults: () => "No se encontraron resultados"
+                                }
+                            });
+                        }
+                    });
             }
         });
+
 
         function toggleVehicleOption(option) {
             const newVehicleForm = document.getElementById('new-vehicle-form');
@@ -270,5 +330,41 @@
                 tariffSelect.removeAttribute('required');
             }
         }
+        $(document).ready(function() {
+            $('#vehicle_id').select2({
+                placeholder: 'Seleccione un auto',
+                allowClear: true,
+                width: '100%',
+                height: '2.5rem',
+                language: {
+                    noResults: function() {
+                        return "No se encontraron resultados";
+                    }
+                }
+            });
+
+            $('#brand_id').select2({
+                placeholder: '',
+                allowClear: true,
+                width: '100%',
+                borderradius: '0.375rem',
+                language: {
+                    noResults: function() {
+                        return "No se encontraron resultados";
+                    }
+                }
+            });
+
+            $('#model_id').select2({
+                placeholder: '',
+                allowClear: true,
+                width: '100%',
+                language: {
+                    noResults: function() {
+                        return "Selecciona una marca primero...";
+                    }
+                }
+            });
+        });
     </script>
 </x-app-layout>

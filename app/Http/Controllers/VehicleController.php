@@ -18,6 +18,7 @@ class VehicleController extends Controller
         $search = $request->input('search');
         $brands = Brands::all();
         $models = Models::all();
+        $tariffs = Tariffs::all();
 
         $vehicles = Vehicles::with('clients')
             ->whereNull('deleted_at') // Excluir los vehículos eliminados lógicamente
@@ -30,7 +31,7 @@ class VehicleController extends Controller
             })
             ->get();
 
-        return view('vehicle.index', compact('vehicles', 'search', 'brands', 'models'));
+        return view('vehicle.index', compact('vehicles', 'search', 'brands', 'models', 'tariffs'));
     }
 
     public function edit($id)
@@ -99,6 +100,7 @@ class VehicleController extends Controller
             'model_id' => $vehicle->model_id,
             'patent' => $vehicle->patent,
             'color' => $vehicle->color,
+            'tariff_id' => $vehicle->tariff_id,
         ]);
     }
 
