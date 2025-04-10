@@ -47,7 +47,7 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('tariff.create')" :active="request()->routeIs('tariff.create')">
-                        {{ __('Gestionar tarifas') }}
+                        {{ __('Tarifas') }}
                     </x-nav-link>
                     <x-nav-link :href="route('brands.index')" :active="request()->routeIs('brands.index')">
                         {{ __('Marcas/Modelos') }}
