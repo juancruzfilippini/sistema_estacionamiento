@@ -8,6 +8,8 @@ use App\Http\Controllers\TariffController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ModelController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\Payments;
 use App\Models\Models;
@@ -101,3 +103,13 @@ Route::get('/vehicles/{id}/data', [VehicleController::class, 'getVehicleData']);
 Route::get('/clients/{id}/data', [ClientController::class, 'getClientData']);
 
 Route::put('/clients/{id}', [ClientController::class, 'update'])->name('client.update');
+
+Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
+
+Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+
+Route::post('/brands/{brand}/models', [ModelController::class, 'store'])->name('models.store');
+
+Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.search');
+
+

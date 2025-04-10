@@ -13,6 +13,7 @@ class Brands extends Model
 
     public function models()
     {
-        return $this->hasMany(Models::class);
+        return $this->hasMany(Models::class, 'brand_id');
     }
+
 }
