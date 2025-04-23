@@ -20,12 +20,19 @@ class VehicleController extends Controller
         $models = Models::all();
         $tariffs = Tariffs::all();
 
-        $vehicles = Vehicles::with('clients')
-            ->whereNull('deleted_at') // Excluir los vehículos eliminados lógicamente
+        $vehicles = Vehicles::with(['clients', 'brand', 'model', 'tariff'])
+            ->whereNull('deleted_at')
             ->when($search, function ($query, $search) {
-                return $query->where(function ($query) use ($search) {
-                    $query->where('brand', 'like', "%$search%")
-                        ->orWhere('model', 'like', "%$search%")
+                $query->where(function ($query) use ($search) {
+                    $query->whereHas('clients', function ($q) use ($search) {
+                        $q->where('name', 'like', "%$search%");
+                    })
+                        ->orWhereHas('brand', function ($q) use ($search) {
+                            $q->where('name', 'like', "%$search%");
+                        })
+                        ->orWhereHas('model', function ($q) use ($search) {
+                            $q->where('name', 'like', "%$search%");
+                        })
                         ->orWhere('patent', 'like', "%$search%");
                 });
             })
@@ -33,6 +40,8 @@ class VehicleController extends Controller
 
         return view('vehicle.index', compact('vehicles', 'search', 'brands', 'models', 'tariffs'));
     }
+
+
 
     public function edit($id)
     {

@@ -136,7 +136,7 @@
 <div id="editVehicleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
         <h2 class="text-lg font-semibold mb-4">Editar Vehículo</h2>
-        <form id="editVehicleForm" action="{{ route('vehicle.update', $vehicle->id) }}" method="POST">
+        <form id="editVehicleForm" method="POST">
             @csrf
             @method('PUT')
 
