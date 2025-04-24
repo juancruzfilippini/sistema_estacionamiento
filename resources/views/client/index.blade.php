@@ -40,6 +40,7 @@
                             <tr class="bg-gray-100">
                                 <th class="border border-gray-300 px-4 py-2 text-left">Nombre del Cliente</th>
                                 <th class="border border-gray-300 px-4 py-2 text-left">Contacto</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Domicilio</th>
                                 <th class="border border-gray-300 px-4 py-2 text-left">Vehículos</th>
                                 <th class="border border-gray-300 px-4 py-2 text-left">Acciones</th>
                             </tr>
@@ -55,6 +56,13 @@
                                         @else
                                             {{ $client->email ?: 'Sin email registrado' }} - Tel:
                                             {{ $client->phone ?: 'Sin teléfono registrado' }}
+                                        @endif
+                                    </td>
+                                    <td class="border border-gray-300 px-4 py-2">
+                                        @if (empty($client->address))
+                                            Sin dirección registrada
+                                        @else
+                                            {{ $client->address }} 
                                         @endif
                                     </td>
 

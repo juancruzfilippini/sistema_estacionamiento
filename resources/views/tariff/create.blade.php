@@ -6,7 +6,7 @@
     </x-slot>
 
     
-    <div class="py-12">
+    <div class="py-12" style="margin-bottom: 300px">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -86,7 +86,7 @@
 
                         <!-- Botón para enviar el formulario -->
                         <div class="flex justify-end">
-                            <button type="submit" class="btn bg-indigo-600 text-white px-4 py-2 rounded-md">
+                            <button type="submit" class="btn bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded-md">
                                 <i class="fa-solid fa-save mr-2"></i> Crear Tarifa
                             </button>
                         </div>
@@ -107,7 +107,7 @@
                                     <tr id="tariff-row-{{ $tariff->id }}">
                                         <td class=" px-4 py-2">
                                             <input type="text" value="{{ $tariff->description }}"
-                                                class="tariff-input" data-id="{{ $tariff->id }}"
+                                                class="tariff-input w-full" data-id="{{ $tariff->id }}"
                                                 data-field="description">
                                         </td>
                                         <td class=" px-4 py-2">

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container">
+    <div class="container" style="margin-bottom: 550px">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
                 <h1 class="mb-4">Registrar Pago</h1>
