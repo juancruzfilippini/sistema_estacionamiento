@@ -52,20 +52,19 @@ class ClientController extends Controller
         // Crear cliente
         $client = Clients::create($data);
 
-        // Manejar opción de auto
         if ($request->vehicle_option === 'new') {
             $vehicleData = $request->only('brand_id', 'model_id', 'color', 'type', 'patent', 'tariff_id');
-            $vehicleData['brand_id'] = strtoupper($vehicleData['brand_id']);
-            $vehicleData['model_id'] = strtoupper($vehicleData['model_id']);
+        
             $vehicleData['color'] = strtoupper($vehicleData['color']);
             $vehicleData['type'] = strtoupper($vehicleData['type']);
             $vehicleData['patent'] = strtoupper($vehicleData['patent']);
-
+        
             $vehicle = Vehicles::create($vehicleData);
             $client->vehicles()->attach($vehicle->id);
         } elseif ($request->vehicle_option === 'existing') {
             $client->vehicles()->attach($request->vehicle_id);
         }
+        
 
         return redirect()->route('dashboard')->with('success', 'Cliente creado correctamente.');
     }
