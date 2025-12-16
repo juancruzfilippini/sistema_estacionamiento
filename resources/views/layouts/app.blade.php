@@ -46,11 +46,11 @@
 
 </head>
 
-<body
-    class="font-sans antialiased bg-slate-950 text-slate-100 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.25),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.22),transparent_22%),radial-gradient(circle_at_40%_80%,rgba(236,72,153,0.2),transparent_28%)]">
+<body class="font-sans antialiased text-slate-100"
+    style="background-image: linear-gradient(rgba(12, 74, 110, 0.5), rgba(8, 47, 73, 0.7)), url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; background-attachment: fixed;">
     <div class="min-h-screen relative overflow-hidden">
-        <div class="pointer-events-none absolute inset-0 mix-blend-screen opacity-40"
-            style="background: conic-gradient(from 45deg at 10% 20%, rgba(56,189,248,0.3), rgba(59,130,246,0.2), rgba(244,114,182,0.2), rgba(74,222,128,0.25), rgba(56,189,248,0.3)); filter: blur(90px);"></div>
+        <div class="pointer-events-none absolute inset-0 mix-blend-screen opacity-30"
+            style="background: radial-gradient(circle at 20% 20%, rgba(125,211,252,0.35), transparent 40%), radial-gradient(circle at 80% 10%, rgba(94,234,212,0.3), transparent 38%), radial-gradient(circle at 35% 80%, rgba(244,114,182,0.35), transparent 45%); filter: blur(90px);"></div>
         @include('layouts.navigation')
 
         <!-- Page Heading -->
