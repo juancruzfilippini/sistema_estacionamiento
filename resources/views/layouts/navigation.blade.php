@@ -53,7 +53,18 @@
                         {{ __('Marcas/Modelos') }}
                     </x-nav-link>
                     <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.index')">
-                        {{ __('Estadísticas') }}
+                        <span class="flex items-center gap-2">
+                            {{ __('Estadísticas') }}
+                            <span
+                                class="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-emerald-900 bg-emerald-100 border border-emerald-200 rounded-full shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="w-3.5 h-3.5">
+                                    <path
+                                        d="M10 1.667a.833.833 0 01.747.464l2.03 4.112 4.497.654a.833.833 0 01.461 1.42l-3.253 3.17.768 4.478a.833.833 0 01-1.208.878L10 15.94l-4.042 2.203a.833.833 0 01-1.208-.878l.768-4.478-3.253-3.17a.833.833 0 01.46-1.42l4.498-.654 2.03-4.112A.833.833 0 0110 1.667z" />
+                                </svg>
+                                {{ __('Nuevo') }}
+                            </span>
+                        </span>
                     </x-nav-link>
 
                     <!-- JavaScript -->
