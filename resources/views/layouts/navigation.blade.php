@@ -52,6 +52,9 @@
                     <x-nav-link :href="route('brands.index')" :active="request()->routeIs('brands.index')">
                         {{ __('Marcas/Modelos') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.index')">
+                        {{ __('Estadísticas') }}
+                    </x-nav-link>
 
                     <!-- JavaScript -->
                     <script>

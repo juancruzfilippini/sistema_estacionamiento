@@ -8,6 +8,7 @@ use App\Http\Controllers\TariffController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -31,6 +32,7 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])
     ->name('login');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/estadisticas', [StatisticsController::class, 'index'])->name('statistics.index');
 
 
 Route::middleware('auth')->group(function () {
