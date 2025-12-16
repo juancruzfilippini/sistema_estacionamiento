@@ -11,6 +11,8 @@ class StatisticsController extends Controller
     {
         $currentYear = now()->year;
 
+        Carbon::setLocale('es');
+
         $payments = Payments::select('amount', 'billing_month', 'payment_date', 'vehicle_id', 'client_id')->get();
 
         $monthlyStats = collect();
