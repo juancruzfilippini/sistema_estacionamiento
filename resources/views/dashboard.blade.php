@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto py-12" style="margin-bottom: 530px">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Estado de Vehículos</h2>
+    <div class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-800">Estado de Vehículos</h2>
         <div class="bg-white rounded-md">
             @if (session('success'))
                 <div class="alert alert-success">
@@ -131,4 +131,3 @@
         });
     </script>
 </x-app-layout>
-z

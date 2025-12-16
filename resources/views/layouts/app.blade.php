@@ -63,7 +63,7 @@
         @endif
 
         <!-- Page Content -->
-        <main class="relative z-10">
+        <main class="relative z-0">
             <div class="py-12">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div
