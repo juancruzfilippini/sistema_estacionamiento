@@ -46,8 +46,11 @@
 
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body class="font-sans antialiased text-slate-100"
+    style="background-image: linear-gradient(rgba(12, 74, 110, 0.5), rgba(8, 47, 73, 0.7)), url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="min-h-screen relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0 mix-blend-screen opacity-30"
+            style="background: radial-gradient(circle at 20% 20%, rgba(125,211,252,0.35), transparent 40%), radial-gradient(circle at 80% 10%, rgba(94,234,212,0.3), transparent 38%), radial-gradient(circle at 35% 80%, rgba(244,114,182,0.35), transparent 45%); filter: blur(90px);"></div>
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -60,10 +63,14 @@
         @endif
 
         <!-- Page Content -->
-        <main>
-            <div
-                class="py-12 bg-[url('https://raw.githubusercontent.com/juancruzfilippini/logo-presupuestos/533fe237e207e797323ffd292f96136c49ee09e5/market%20salon.jpg')]">
-                {{ $slot }}
+        <main class="relative z-0">
+            <div class="py-12">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div
+                        class="rounded-3xl border border-white/30 bg-white/80 text-slate-900 backdrop-blur-2xl shadow-2xl shadow-cyan-900/25 p-6 sm:p-8">
+                        {{ $slot }}
+                    </div>
+                </div>
             </div>
         </main>
     </div>
