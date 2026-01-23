@@ -302,21 +302,24 @@
         $('#brand_id').on('change', function() {
             const brandId = $(this).val();
             const modelSelect = $('#model_id');
+            const modelContainer = modelSelect.next('.select2');
 
             // Limpia el select de modelos y lo deshabilita mientras carga
-            modelSelect.html('<option value=""></option>').prop('disabled', true).trigger('change');
+            modelSelect.html('<option value=""></option>').prop('disabled', true).trigger('change.select2');
+            modelContainer.addClass('select2-container--disabled');
+            modelContainer.find('.select2-selection').attr('aria-disabled', 'true');
 
             if (brandId) {
                 fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
                     .then(response => response.json())
                     .then(models => {
-                        if (models.length > 0) {
-                            models.forEach(model => {
-                                modelSelect.append(
-                                    `<option value="${model.id}">${model.name}</option>`);
-                            });
-                            modelSelect.prop('disabled', false).trigger('change');
-                        }
+                        models.forEach(model => {
+                            modelSelect.append(
+                                `<option value="${model.id}">${model.name}</option>`);
+                        });
+                        modelSelect.prop('disabled', false).trigger('change.select2');
+                        modelContainer.removeClass('select2-container--disabled');
+                        modelContainer.find('.select2-selection').attr('aria-disabled', 'false');
                     });
             }
         });
