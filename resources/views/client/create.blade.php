@@ -299,6 +299,8 @@
     </style>
 
     <script>
+        const modelsUrlBase = @json(url('/get-models'));
+
         $('#brand_id').on('change select2:select', function() {
             const brandId = $(this).val();
             const modelSelect = $('#model_id');
@@ -318,7 +320,7 @@
             modelContainer.find('.select2-selection').attr('aria-disabled', 'false');
 
             if (brandId) {
-                fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
+                fetch(`${modelsUrlBase}/${brandId}`)
                     .then(response => response.json())
                     .then(models => {
                         modelSelect.html('<option value=""></option>');
