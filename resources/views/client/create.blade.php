@@ -299,27 +299,45 @@
     </style>
 
     <script>
-        $('#brand_id').on('change', function() {
+        $('#brand_id').on('change select2:select', function() {
             const brandId = $(this).val();
             const modelSelect = $('#model_id');
             const modelContainer = modelSelect.next('.select2');
 
-            // Limpia el select de modelos y lo deshabilita mientras carga
-            modelSelect.html('<option value=""></option>').prop('disabled', true).trigger('change.select2');
-            modelContainer.addClass('select2-container--disabled');
-            modelContainer.find('.select2-selection').attr('aria-disabled', 'true');
+            if (!brandId) {
+                modelSelect.html('<option value=""></option>').prop('disabled', true).trigger('change.select2');
+                modelContainer.addClass('select2-container--disabled');
+                modelContainer.find('.select2-selection').attr('aria-disabled', 'true');
+                return;
+            }
+
+            // Limpia el select de modelos y lo habilita mientras carga
+            modelSelect.html('<option value="">Cargando modelos...</option>').prop('disabled', false)
+                .trigger('change.select2');
+            modelContainer.removeClass('select2-container--disabled');
+            modelContainer.find('.select2-selection').attr('aria-disabled', 'false');
 
             if (brandId) {
                 fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
                     .then(response => response.json())
                     .then(models => {
-                        models.forEach(model => {
-                            modelSelect.append(
-                                `<option value="${model.id}">${model.name}</option>`);
-                        });
+                        modelSelect.html('<option value=""></option>');
+
+                        if (models.length === 0) {
+                            modelSelect.append('<option value="">Sin modelos disponibles</option>');
+                        } else {
+                            models.forEach(model => {
+                                modelSelect.append(
+                                    `<option value="${model.id}">${model.name}</option>`);
+                            });
+                        }
+
                         modelSelect.prop('disabled', false).trigger('change.select2');
-                        modelContainer.removeClass('select2-container--disabled');
-                        modelContainer.find('.select2-selection').attr('aria-disabled', 'false');
+                    })
+                    .catch(() => {
+                        modelSelect.html('<option value="">Sin modelos disponibles</option>')
+                            .prop('disabled', false)
+                            .trigger('change.select2');
                     });
             }
         });
