@@ -279,6 +279,23 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border: 1px solid #d1d5db;
         }
+
+        .select2-container--default .select2-results__option {
+            color: #0f172a;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected="true"] {
+            color: #0f172a;
+            background-color: #e0e7ff;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            color: #ffffff;
+        }
+
+        .select2-container--default .select2-results__option[aria-disabled="true"] {
+            color: #cbd5f5;
+        }
     </style>
 
     <script>
