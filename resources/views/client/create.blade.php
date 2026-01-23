@@ -284,9 +284,10 @@
     <script>
         $('#brand_id').on('change', function() {
             const brandId = $(this).val();
+            const modelSelect = $('#model_id');
 
-            // Limpia el select de modelos
-            $('#model_id').html('<option value=""></option>').prop('disabled', true);
+            // Limpia el select de modelos y lo deshabilita mientras carga
+            modelSelect.html('<option value=""></option>').prop('disabled', true).trigger('change');
 
             if (brandId) {
                 fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
@@ -294,19 +295,10 @@
                     .then(models => {
                         if (models.length > 0) {
                             models.forEach(model => {
-                                $('#model_id').append(
+                                modelSelect.append(
                                     `<option value="${model.id}">${model.name}</option>`);
                             });
-
-                            // Reactiva el select y reinicializa Select2
-                            $('#model_id').prop('disabled', false).select2({
-                                placeholder: 'Seleccione un modelo',
-                                allowClear: true,
-                                width: '100%',
-                                language: {
-                                    noResults: () => "No se encontraron resultados"
-                                }
-                            });
+                            modelSelect.prop('disabled', false).trigger('change');
                         }
                     });
             }
