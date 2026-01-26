@@ -279,35 +279,67 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border: 1px solid #d1d5db;
         }
+
+        .select2-container--default .select2-results__option {
+            color: #0f172a;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected="true"] {
+            color: #0f172a;
+            background-color: #e0e7ff;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            color: #ffffff;
+        }
+
+        .select2-container--default .select2-results__option[aria-disabled="true"] {
+            color: #cbd5f5;
+        }
     </style>
 
     <script>
-        $('#brand_id').on('change', function() {
-            const brandId = $(this).val();
+        const modelsUrlBase = @json(url('/get-models'));
 
-            // Limpia el select de modelos
-            $('#model_id').html('<option value=""></option>').prop('disabled', true);
+        $('#brand_id').on('change select2:select', function() {
+            const brandId = $(this).val();
+            const modelSelect = $('#model_id');
+            const modelContainer = modelSelect.next('.select2');
+
+            if (!brandId) {
+                modelSelect.html('<option value=""></option>').prop('disabled', true).trigger('change.select2');
+                modelContainer.addClass('select2-container--disabled');
+                modelContainer.find('.select2-selection').attr('aria-disabled', 'true');
+                return;
+            }
+
+            // Limpia el select de modelos y lo habilita mientras carga
+            modelSelect.html('<option value="">Cargando modelos...</option>').prop('disabled', false)
+                .trigger('change.select2');
+            modelContainer.removeClass('select2-container--disabled');
+            modelContainer.find('.select2-selection').attr('aria-disabled', 'false');
 
             if (brandId) {
-                fetch(`/sistema_estacionamiento/public/get-models/${brandId}`)
+                fetch(`${modelsUrlBase}/${brandId}`)
                     .then(response => response.json())
                     .then(models => {
-                        if (models.length > 0) {
+                        modelSelect.html('<option value=""></option>');
+
+                        if (models.length === 0) {
+                            modelSelect.append('<option value="">Sin modelos disponibles</option>');
+                        } else {
                             models.forEach(model => {
-                                $('#model_id').append(
+                                modelSelect.append(
                                     `<option value="${model.id}">${model.name}</option>`);
                             });
-
-                            // Reactiva el select y reinicializa Select2
-                            $('#model_id').prop('disabled', false).select2({
-                                placeholder: 'Seleccione un modelo',
-                                allowClear: true,
-                                width: '100%',
-                                language: {
-                                    noResults: () => "No se encontraron resultados"
-                                }
-                            });
                         }
+
+                        modelSelect.prop('disabled', false).trigger('change.select2');
+                    })
+                    .catch(() => {
+                        modelSelect.html('<option value="">Sin modelos disponibles</option>')
+                            .prop('disabled', false)
+                            .trigger('change.select2');
                     });
             }
         });
